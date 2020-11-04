@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 Historiska data finns på riksmuseet lagrade i så kallade `prc`-filer, exempel på en sådan är [`LIMN_short.prc`](https://raw.githubusercontent.com/NRM-MOC/migrering_prc/main/files/LIMN_short.prc) som innehåller data från det limniska övervakningsprogrammet fram till 1982. Det finns ett pågående projekt på riksmuseet med att migrera dessa data till en modern databas, delvis beroende på att formatet är svårt att anpassa till nya rapporteringskrav. Så länge detta arbete saknar finansiering finns dock ingen tydlig tidsplan. 
 
-Nedanstående R-kod drar ut data ur ovannända `prc`-fil och formaterar den efter rapportmallar. Notera att vi lagt in individvariabler som ålder, vikt och längd både i `DATA_MATVARDE` och tillsammans med kön i `PROVDATA_BIOTA`. Vidare förekommer fettprocent och torrviktsprocent både som egna kolumner och rader i `DATA_MATVARDE`.
+Nedanstående R-kod drar ut data ur ovannända `prc`-fil och formaterar den efter rapportmallar. Notera att vi lagt in individvariabler som ålder, vikt och längd både i `DATA_MATVARDE` och tillsammans med kön i `PROVDATA_BIOTA`. Vidare förekommer fettprocent och torrviktsprocent både som egna kolumner och rader i `DATA_MATVARDE`. Vi har även på halvautomatiskt sätt försökt generera en `PROV_KOD_LABB`.
 
 Motsvarande utdrag bör i princip kunna göras även för marina övervakningsprogrammet, eventuellt efter mindre modifikationer för att hantera andra matristyper (ägg och musslor).
 

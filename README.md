@@ -14,7 +14,8 @@ Nedanstående R-kod drar ut data ur ovannända `prc`-fil och formaterar
 den efter rapportmallar. Notera att vi lagt in individvariabler som
 ålder, vikt och längd både i `DATA_MATVARDE` och tillsammans med kön i
 `PROVDATA_BIOTA`. Vidare förekommer fettprocent och torrviktsprocent
-både som egna kolumner och rader i `DATA_MATVARDE`.
+både som egna kolumner och rader i `DATA_MATVARDE`. Vi har även på 
+halvautomatiskt sätt försökt generera en `PROV_KOD_LABB`.
 
 Motsvarande utdrag bör i princip kunna göras även för marina
 övervakningsprogrammet, eventuellt efter mindre modifikationer för att
