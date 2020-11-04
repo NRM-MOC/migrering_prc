@@ -98,3 +98,7 @@ head(DATA_MATVARDE)
 write_csv(DATA_MATVARDE, "DATA_MATVARDE.csv")
 ```
 
+```{r}
+sessionInfo()
+```
+

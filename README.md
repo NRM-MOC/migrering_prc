@@ -158,3 +158,41 @@ head(DATA_MATVARDE)
 ``` r
 write_csv(DATA_MATVARDE, "DATA_MATVARDE.csv")
 ```
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.0.2 (2020-06-22)
+    ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+    ## Running under: Windows 10 x64 (build 18363)
+    ## 
+    ## Matrix products: default
+    ## 
+    ## locale:
+    ## [1] LC_COLLATE=Swedish_Sweden.1252  LC_CTYPE=Swedish_Sweden.1252   
+    ## [3] LC_MONETARY=Swedish_Sweden.1252 LC_NUMERIC=C                   
+    ## [5] LC_TIME=Swedish_Sweden.1252    
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ##  [1] readxl_1.3.1    forcats_0.5.0   stringr_1.4.0   dplyr_1.0.2    
+    ##  [5] purrr_0.3.4     readr_1.4.0     tidyr_1.1.2     tibble_3.0.4   
+    ##  [9] ggplot2_3.3.2   tidyverse_1.3.0
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] tidyselect_1.1.0 xfun_0.18        haven_2.3.1      colorspace_1.4-1
+    ##  [5] vctrs_0.3.4      generics_0.0.2   htmltools_0.5.0  yaml_2.2.1      
+    ##  [9] utf8_1.1.4       blob_1.2.1       rlang_0.4.8      pillar_1.4.6    
+    ## [13] glue_1.4.2       withr_2.3.0      DBI_1.1.0        dbplyr_1.4.4    
+    ## [17] modelr_0.1.8     lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0    
+    ## [21] cellranger_1.1.0 rvest_0.3.6      evaluate_0.14    knitr_1.30      
+    ## [25] MoCiS2_0.1.0     fansi_0.4.1      broom_0.7.1      Rcpp_1.0.5      
+    ## [29] scales_1.1.1     backports_1.1.10 jsonlite_1.7.1   fs_1.5.0        
+    ## [33] hms_0.5.3        digest_0.6.25    stringi_1.5.3    grid_4.0.2      
+    ## [37] cli_2.1.0        tools_4.0.2      magrittr_1.5     crayon_1.3.4    
+    ## [41] pkgconfig_2.0.3  ellipsis_0.3.1   xml2_1.3.2       reprex_0.3.0    
+    ## [45] lubridate_1.7.9  assertthat_0.2.1 rmarkdown_2.4    httr_1.4.2      
+    ## [49] rstudioapi_0.11  R6_2.4.1         compiler_4.0.2
