@@ -14,7 +14,7 @@ Nedanstående R-kod drar ut data ur ovannända `prc`-fil och formaterar
 den efter rapportmallar. Notera att vi lagt in individvariabler som
 ålder, vikt och längd både i `DATA_MATVARDE` och tillsammans med kön i
 `PROVDATA_BIOTA`. Vidare förekommer fettprocent och torrviktsprocent
-både som egna kolumner och rader i `DATA_MATVARDE`. Vi har även på 
+både som egna kolumner och rader i `DATA_MATVARDE`. Vi har även på
 halvautomatiskt sätt försökt generera en `PROV_KOD_LABB`.
 
 Motsvarande utdrag bör i princip kunna göras även för marina
@@ -43,7 +43,7 @@ head(LIMN_prc)
     ## 4 +KRP~ KRPLH       NA meas~ NRM   <NA>  KRPL       1967    14     7 ESOX  BOLM 
     ## 5 +ALD~ ALDRH        0 age   NRM   OTOL~ ALDR       1967    14     7 ESOX  BOLM 
     ## 6 +GOV~ GOVKT       NA weig~ NRM   <NA>  GOVKT      1967    14     7 ESOX  BOLM 
-    ## # ... with 14 more variables: MYEAR <lgl>, PROVTAG_DAT <date>, ACCNR <chr>,
+    ## # ... with 14 more variables: MYEAR <lgl>, PROVTAG_DAT <chr>, ACCNR <chr>,
     ## #   LAB_KOD <chr>, TOTL <dbl>, KRPL <dbl>, TOTV <dbl>, ALDR <dbl>, ANM <chr>,
     ## #   SEX <dbl>, NHOM <dbl>, FPRC <dbl>, LTPRC <dbl>, MTPRC <dbl>
 
@@ -86,7 +86,7 @@ head(PROVMETADATA)
     ## 4 00103839     Bolmen         C1967/08003      NMO           SJO-SOTV-RINN  
     ## 5 00103839     Bolmen         C1967/08004      NMO           SJO-SOTV-RINN  
     ## 6 00103839     Bolmen         C1967/08005      NMO           SJO-SOTV-RINN  
-    ## # ... with 7 more variables: PROVPLATS_TYP <chr>, PROVTAG_DAT <date>,
+    ## # ... with 7 more variables: PROVPLATS_TYP <chr>, PROVTAG_DAT <chr>,
     ## #   PROVTAG_ORG <chr>, ACKR_PROV <chr>, PLATTFORM <chr>, PROVTAG_MET <chr>,
     ## #   DIREKT_BEHA <chr>
 
