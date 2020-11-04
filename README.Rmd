@@ -7,7 +7,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-Historiska data finns på riksmuseet lagrade i så kallade `prc`-filer, exempel på en sådan är [`LIMN_short.prc`](https://github.com/NRM-MOC/migrering_prc/files/LIMN_short.prc) som innehåller data från det limniska övervakningsprogrammet fram till 1982. Det finns ett pågående projekt på riksmuseet med att migrera dessa data till en modern databas, delvis beroende på att formatet är svårt att anpassa till nya rapporteringskrav. Så länge detta arbete saknar finansiering finns dock ingen tydlig tidsplan. 
+Historiska data finns på riksmuseet lagrade i så kallade `prc`-filer, exempel på en sådan är [`LIMN_short.prc`](https://raw.githubusercontent.com/NRM-MOC/migrering_prc/main/files/LIMN_short.prc) som innehåller data från det limniska övervakningsprogrammet fram till 1982. Det finns ett pågående projekt på riksmuseet med att migrera dessa data till en modern databas, delvis beroende på att formatet är svårt att anpassa till nya rapporteringskrav. Så länge detta arbete saknar finansiering finns dock ingen tydlig tidsplan. 
 
 Nedanstående R-kod drar ut data ur ovannända `prc`-fil och formaterar den efter rapportmallar. Notera att vi lagt in individvariabler som ålder, vikt och längd både i `DATA_MATVARDE` och tillsammans med kön i `PROVDATA_BIOTA`. Vidare förekommer fettprocent och torrviktsprocent både som egna kolumner och rader i `DATA_MATVARDE`.
 
@@ -22,7 +22,8 @@ library(readxl)
 kodlista_path <- system.file("extdata", "codelist.xlsx", package = "MoCiS2")
 
 # Dra parametervärden ur prc-fil
-LIMN_prc <- MoCiS2::moc_read_prc("files/LIMN_short.prc")
+LIMN_prc <- MoCiS2::moc_read_prc("files/LIMN_short.prc") %>% 
+  filter(str_sub(raw, 1, 1) != "*") # * markerar felaktiga värden
 head(LIMN_prc)
 ```
 

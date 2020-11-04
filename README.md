@@ -3,7 +3,7 @@ Migrering av historiska data
 
 Historiska data finns på riksmuseet lagrade i så kallade `prc`-filer,
 exempel på en sådan är
-[`LIMN_short.prc`](https://github.com/NRM-MOC/migrering_prc/files/LIMN_short.prc)
+[`LIMN_short.prc`](https://raw.githubusercontent.com/NRM-MOC/migrering_prc/main/files/LIMN_short.prc)
 som innehåller data från det limniska övervakningsprogrammet fram till
 1982. Det finns ett pågående projekt på riksmuseet med att migrera dessa
 data till en modern databas, delvis beroende på att formatet är svårt
@@ -28,7 +28,8 @@ library(readxl)
 kodlista_path <- system.file("extdata", "codelist.xlsx", package = "MoCiS2")
 
 # Dra parametervärden ur prc-fil
-LIMN_prc <- MoCiS2::moc_read_prc("files/LIMN_short.prc")
+LIMN_prc <- MoCiS2::moc_read_prc("files/LIMN_short.prc") %>% 
+  filter(str_sub(raw, 1, 1) != "*") # * markerar felaktiga värden
 head(LIMN_prc)
 ```
 
