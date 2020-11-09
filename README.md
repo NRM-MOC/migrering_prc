@@ -11,11 +11,18 @@ att anpassa till nya rapporteringskrav. Så länge detta arbete saknar
 finansiering finns dock ingen tydlig tidsplan.
 
 Nedanstående R-kod drar ut data ur ovannända `prc`-fil och formaterar
-den efter rapportmallar. Notera att vi lagt in individvariabler som
-ålder, vikt och längd både i `DATA_MATVARDE` och tillsammans med kön i
-`PROVDATA_BIOTA`. Vidare förekommer fettprocent och torrviktsprocent
-både som egna kolumner och rader i `DATA_MATVARDE`. Vi har även på
-halvautomatiskt sätt försökt generera en `PROV_KOD_LABB`.
+den efter rapportmallar (i `csv`-filer ovan). Notera att vi lagt in
+individvariabler som ålder, vikt och längd både i
+[`DATA_MATVARDE`](https://github.com/NRM-MOC/migrering_prc/blob/main/DATA_MATVARDE.csv)
+(enligt instruktion från datavärd) och tillsammans med kön i
+[`PROVDATA_BIOTA`](https://github.com/NRM-MOC/migrering_prc/blob/main/PROVDATA_BIOTA.csv).
+Vidare förekommer fettprocent och torrviktsprocent både som egna
+kolumner och som rader i
+[`DATA_MATVARDE`](https://github.com/NRM-MOC/migrering_prc/blob/main/DATA_MATVARDE.csv).
+Vi har även på halvautomatiskt sätt försökt generera en `PROV_KOD_LABB`.
+Saknas gör uppgifter om analysmetoder samt översättning av labb-namn
+till datavärdens kodlista, även om detta i praktiken antagligen går att
+ordna har det låg prioritet hos riksmuseet.
 
 Motsvarande utdrag bör i princip kunna göras även för marina
 övervakningsprogrammet, eventuellt efter mindre modifikationer för att
@@ -185,16 +192,16 @@ sessionInfo()
     ##  [9] ggplot2_3.3.2   tidyverse_1.3.0
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] tidyselect_1.1.0 xfun_0.18        haven_2.3.1      colorspace_1.4-1
-    ##  [5] vctrs_0.3.4      generics_0.0.2   htmltools_0.5.0  yaml_2.2.1      
-    ##  [9] utf8_1.1.4       blob_1.2.1       rlang_0.4.8      pillar_1.4.6    
-    ## [13] glue_1.4.2       withr_2.3.0      DBI_1.1.0        dbplyr_1.4.4    
-    ## [17] modelr_0.1.8     lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0    
-    ## [21] cellranger_1.1.0 rvest_0.3.6      evaluate_0.14    knitr_1.30      
-    ## [25] MoCiS2_0.1.0     fansi_0.4.1      broom_0.7.1      Rcpp_1.0.5      
-    ## [29] scales_1.1.1     backports_1.1.10 jsonlite_1.7.1   fs_1.5.0        
-    ## [33] hms_0.5.3        digest_0.6.25    stringi_1.5.3    grid_4.0.2      
-    ## [37] cli_2.1.0        tools_4.0.2      magrittr_1.5     crayon_1.3.4    
-    ## [41] pkgconfig_2.0.3  ellipsis_0.3.1   xml2_1.3.2       reprex_0.3.0    
-    ## [45] lubridate_1.7.9  assertthat_0.2.1 rmarkdown_2.4    httr_1.4.2      
-    ## [49] rstudioapi_0.11  R6_2.4.1         compiler_4.0.2
+    ##  [1] Rcpp_1.0.5       cellranger_1.1.0 pillar_1.4.6     compiler_4.0.2  
+    ##  [5] dbplyr_2.0.0     tools_4.0.2      digest_0.6.27    lubridate_1.7.9 
+    ##  [9] jsonlite_1.7.1   evaluate_0.14    lifecycle_0.2.0  gtable_0.3.0    
+    ## [13] pkgconfig_2.0.3  rlang_0.4.8      reprex_0.3.0     cli_2.1.0       
+    ## [17] rstudioapi_0.11  DBI_1.1.0        yaml_2.2.1       haven_2.3.1     
+    ## [21] xfun_0.19        withr_2.3.0      xml2_1.3.2       httr_1.4.2      
+    ## [25] knitr_1.30       fs_1.5.0         generics_0.1.0   vctrs_0.3.4     
+    ## [29] hms_0.5.3        grid_4.0.2       tidyselect_1.1.0 glue_1.4.2      
+    ## [33] R6_2.5.0         fansi_0.4.1      rmarkdown_2.5    MoCiS2_0.1.0    
+    ## [37] modelr_0.1.8     magrittr_1.5     backports_1.1.10 scales_1.1.1    
+    ## [41] ellipsis_0.3.1   htmltools_0.5.0  rvest_0.3.6      assertthat_0.2.1
+    ## [45] colorspace_1.4-1 utf8_1.1.4       stringi_1.5.3    munsell_0.5.0   
+    ## [49] broom_0.7.2      crayon_1.3.4
