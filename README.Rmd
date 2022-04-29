@@ -1,5 +1,5 @@
 ---
-title: "Migrering av historiska data"
+title: "Migrering av historiska data (uppdaterad 220429)"
 output: github_document
 ---
 
@@ -49,14 +49,19 @@ PROVMETADATA <- LIMN_data %>%
          ACKR_PROV = "Nej",
          PROVTAG_MET = "Natfiske",
          PLATTFORM = "SMABAT",
-         DIREKT_BEHA = "FRYST") %>% 
-  select("PROVPLATS_ID", "NAMN_PROVPLATS", "PROV_KOD_ORIGINAL", "PROVTAG_SYFTE", 
-         "PROVPLATS_MILJO", "PROVPLATS_TYP", "PROVTAG_DAT", 
+         DIREKT_BEHA = "FRYST",
+         ANTAL_DAGAR = 1,
+         POSITION_NK_FKT_PROVPUNKT = NA,
+         POSITION_EK_FKT_PROVPUNKT = NA,
+         UNDERSOKNINGSTYP = NA,
+         KOMMENTAR_PROV = NA) %>% 
+  select("PROVPLATS_ID", "NAMN_PROVPLATS","POSITION_NK_FKT_PROVPUNKT", "POSITION_EK_FKT_PROVPUNKT", "PROV_KOD_ORIGINAL", "PROVTAG_SYFTE", "UNDERSOKNINGSTYP",
+         "PROVPLATS_MILJO", "PROVPLATS_TYP", "PROVTAG_DAT", "ANTAL_DAGAR",
          "PROVTAG_ORG", "ACKR_PROV", "PLATTFORM", "PROVTAG_MET", 
-         "DIREKT_BEHA") %>% 
+         "DIREKT_BEHA", "KOMMENTAR_PROV") %>% 
   distinct()
 head(PROVMETADATA)
-write_csv(PROVMETADATA, "PROVMETADATA.csv")
+write_csv(PROVMETADATA, "PROVMETADATA.csv", na = "")
 ```
 
 
@@ -66,12 +71,11 @@ PROVDATA_BIOTA <- LIMN_data %>%
   mutate(KON = case_when(SEX == 1 ~ "M",
                          SEX == 2 ~ "F",
                          (SEX > 1) & (SEX < 2) ~ "X"),
-         ANTAL = NHOM) %>% 
-  select("PROV_KOD_ORIGINAL", "ART", "DYNTAXA_TAXON_ID", "KON", "ALDER_AR" = "ALDR", 
-         "LANGD_CM" = "TOTL", "VIKT_G" = "TOTV", "ANTAL") %>% 
+         ANTAL = NHOM, KOMMENTAR_PROV = NA) %>% 
+  select("PROV_KOD_ORIGINAL", "ART", "DYNTAXA_TAXON_ID", "KON", "ANTAL", "KOMMENTAR_PROV") %>% 
   distinct()
 head(PROVDATA_BIOTA)
-write_csv(PROVDATA_BIOTA, "PROVDATA_BIOTA.csv")
+write_csv(PROVDATA_BIOTA, "PROVDATA_BIOTA.csv", na = "")
 
 ```
 
@@ -83,20 +87,26 @@ DATA_MATVARDE <- LIMN_data %>%
          MATV_STD = ifelse(is_LOQ, "q", ""),
          MATVARDETAL = ifelse(is_LOQ, abs(VALUE), VALUE),
          RAPPORTERINGSGRANS_LOQ = ifelse(is_LOQ, MATVARDETAL, NA),
+         DETEKTIONSGRANS_LOD = NA,
          UTFOR_LABB = ifelse(NRM_CODE %in% c("D13CUCD", "D15NUCD", "CUCD", "NUCD"), "UC Davies", NA),
          PROV_LAGR = "FRYST",
-         PROV_KOD_LABB = paste(PROV_KOD_ORIGINAL, LAB_KOD),
+         RAPPORT_KOD_LABB = paste(PROV_KOD_ORIGINAL, LAB_KOD),
          FETT_PRC = FPRC,
          TORRVIKT_PRC = case_when(ORGAN == "MUSKEL" ~ MTPRC,
-                                  ORGAN == "LEVER" ~ LTPRC)
+                                  ORGAN == "LEVER" ~ LTPRC),
+         MATVARDETEXT = NA,
+         MATOSAKERHET = NA, MATOSAKERHET_ENHET = NA, MATOSAKERHET_TYP = NA,
+         MATVARDESPAR = if_else(is_LOQ, "Ja", ""),
+         DATUM_REG = NA, PROV_BERED = NA, PROVKARL = NA, ANALYS_DAT = NA, ANALYS_MET = NA, ACKREDITERAD_MET = NA, ANALYS_INSTR = NA, KOMMENTAR_MATVARDE = NA
   ) %>% 
-  select("PARAMETERNAMN", "UNIK_PARAMETERKOD", "PROV_KOD_ORIGINAL", "PROV_KOD_LABB",
-         "LABB", "UTFOR_LABB", "ORGAN", 
-         "MATVARDETAL", "MATVARDETAL_ANM", "ENHET", "MATV_STD", "RAPPORTERINGSGRANS_LOQ", 
-         "PROV_LAGR", "FETT_PRC", "TORRVIKT_PRC") %>% 
+  select("PARAMETERNAMN", "UNIK_PARAMETERKOD", "PROV_KOD_ORIGINAL", "RAPPORT_KOD_LABB",
+         "LABB", "UTFOR_LABB", "ORGAN", "MATVARDETEXT",
+         "MATVARDETAL", "MATVARDETAL_ANM", "ENHET", "MATV_STD", "RAPPORTERINGSGRANS_LOQ", "DETEKTIONSGRANS_LOD", "MATOSAKERHET", "MATOSAKERHET_ENHET", "MATOSAKERHET_TYP", 
+         "MATVARDESPAR", "DATUM_REG",
+         "PROV_LAGR", "PROV_BERED", "PROVKARL", "ANALYS_DAT", "ANALYS_MET", "ACKREDITERAD_MET", "ANALYS_INSTR", "KOMMENTAR_MATVARDE") %>% 
   distinct()
 head(DATA_MATVARDE)
-write_csv(DATA_MATVARDE, "DATA_MATVARDE.csv")
+write_csv(DATA_MATVARDE, "DATA_MATVARDE.csv", na = "")
 ```
 
 ```{r}

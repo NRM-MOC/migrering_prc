@@ -1,4 +1,4 @@
-Migrering av historiska data
+Migrering av historiska data (uppdaterad 220429)
 ================
 
 Historiska data finns på riksmuseet lagrade i så kallade `prc`-filer,
@@ -75,30 +75,36 @@ PROVMETADATA <- LIMN_data %>%
          ACKR_PROV = "Nej",
          PROVTAG_MET = "Natfiske",
          PLATTFORM = "SMABAT",
-         DIREKT_BEHA = "FRYST") %>% 
-  select("PROVPLATS_ID", "NAMN_PROVPLATS", "PROV_KOD_ORIGINAL", "PROVTAG_SYFTE", 
-         "PROVPLATS_MILJO", "PROVPLATS_TYP", "PROVTAG_DAT", 
+         DIREKT_BEHA = "FRYST",
+         ANTAL_DAGAR = 1,
+         POSITION_NK_FKT_PROVPUNKT = NA,
+         POSITION_EK_FKT_PROVPUNKT = NA,
+         UNDERSOKNINGSTYP = NA,
+         KOMMENTAR_PROV = NA) %>% 
+  select("PROVPLATS_ID", "NAMN_PROVPLATS","POSITION_NK_FKT_PROVPUNKT", "POSITION_EK_FKT_PROVPUNKT", "PROV_KOD_ORIGINAL", "PROVTAG_SYFTE", "UNDERSOKNINGSTYP",
+         "PROVPLATS_MILJO", "PROVPLATS_TYP", "PROVTAG_DAT", "ANTAL_DAGAR",
          "PROVTAG_ORG", "ACKR_PROV", "PLATTFORM", "PROVTAG_MET", 
-         "DIREKT_BEHA") %>% 
+         "DIREKT_BEHA", "KOMMENTAR_PROV") %>% 
   distinct()
 head(PROVMETADATA)
 ```
 
-    ## # A tibble: 6 x 12
-    ##   PROVPLATS_ID NAMN_PROVPLATS PROV_KOD_ORIGIN~ PROVTAG_SYFTE PROVPLATS_MILJO
-    ##   <chr>        <chr>          <chr>            <chr>         <chr>          
-    ## 1 00103839     Bolmen         C1967/08001-080~ NMO           SJO-SOTV-RINN  
-    ## 2 00103839     Bolmen         C1967/08001      NMO           SJO-SOTV-RINN  
-    ## 3 00103839     Bolmen         C1967/08002      NMO           SJO-SOTV-RINN  
-    ## 4 00103839     Bolmen         C1967/08003      NMO           SJO-SOTV-RINN  
-    ## 5 00103839     Bolmen         C1967/08004      NMO           SJO-SOTV-RINN  
-    ## 6 00103839     Bolmen         C1967/08005      NMO           SJO-SOTV-RINN  
-    ## # ... with 7 more variables: PROVPLATS_TYP <chr>, PROVTAG_DAT <chr>,
-    ## #   PROVTAG_ORG <chr>, ACKR_PROV <chr>, PLATTFORM <chr>, PROVTAG_MET <chr>,
-    ## #   DIREKT_BEHA <chr>
+    ## # A tibble: 6 x 17
+    ##   PROVPLATS_ID NAMN_PROVPLATS POSITION_NK_FKT~ POSITION_EK_FKT~ PROV_KOD_ORIGIN~
+    ##   <chr>        <chr>          <lgl>            <lgl>            <chr>           
+    ## 1 00103839     Bolmen         NA               NA               C1967/08001-080~
+    ## 2 00103839     Bolmen         NA               NA               C1967/08001     
+    ## 3 00103839     Bolmen         NA               NA               C1967/08002     
+    ## 4 00103839     Bolmen         NA               NA               C1967/08003     
+    ## 5 00103839     Bolmen         NA               NA               C1967/08004     
+    ## 6 00103839     Bolmen         NA               NA               C1967/08005     
+    ## # ... with 12 more variables: PROVTAG_SYFTE <chr>, UNDERSOKNINGSTYP <lgl>,
+    ## #   PROVPLATS_MILJO <chr>, PROVPLATS_TYP <chr>, PROVTAG_DAT <chr>,
+    ## #   ANTAL_DAGAR <dbl>, PROVTAG_ORG <chr>, ACKR_PROV <chr>, PLATTFORM <chr>,
+    ## #   PROVTAG_MET <chr>, DIREKT_BEHA <chr>, KOMMENTAR_PROV <lgl>
 
 ``` r
-write_csv(PROVMETADATA, "PROVMETADATA.csv")
+write_csv(PROVMETADATA, "PROVMETADATA.csv", na = "")
 ```
 
 ``` r
@@ -106,25 +112,24 @@ PROVDATA_BIOTA <- LIMN_data %>%
   mutate(KON = case_when(SEX == 1 ~ "M",
                          SEX == 2 ~ "F",
                          (SEX > 1) & (SEX < 2) ~ "X"),
-         ANTAL = NHOM) %>% 
-  select("PROV_KOD_ORIGINAL", "ART", "DYNTAXA_TAXON_ID", "KON", "ALDER_AR" = "ALDR", 
-         "LANGD_CM" = "TOTL", "VIKT_G" = "TOTV", "ANTAL") %>% 
+         ANTAL = NHOM, KOMMENTAR_PROV = NA) %>% 
+  select("PROV_KOD_ORIGINAL", "ART", "DYNTAXA_TAXON_ID", "KON", "ANTAL", "KOMMENTAR_PROV") %>% 
   distinct()
 head(PROVDATA_BIOTA)
 ```
 
-    ## # A tibble: 6 x 8
-    ##   PROV_KOD_ORIGINAL ART   DYNTAXA_TAXON_ID KON   ALDER_AR LANGD_CM VIKT_G ANTAL
-    ##   <chr>             <chr>            <dbl> <chr>    <dbl>    <dbl>  <dbl> <dbl>
-    ## 1 C1967/08001-08010 Gadda           206139 <NA>         0       NA     NA    10
-    ## 2 C1967/08001       Gadda           206139 <NA>        NA       NA   1180     1
-    ## 3 C1967/08002       Gadda           206139 <NA>        NA       NA    845     1
-    ## 4 C1967/08003       Gadda           206139 <NA>        NA       NA   1075     1
-    ## 5 C1967/08004       Gadda           206139 <NA>        NA       NA   1790     1
-    ## 6 C1967/08005       Gadda           206139 <NA>        NA       NA   1760     1
+    ## # A tibble: 6 x 6
+    ##   PROV_KOD_ORIGINAL ART   DYNTAXA_TAXON_ID KON   ANTAL KOMMENTAR_PROV
+    ##   <chr>             <chr>            <dbl> <chr> <dbl> <lgl>         
+    ## 1 C1967/08001-08010 Gadda           206139 <NA>     10 NA            
+    ## 2 C1967/08001       Gadda           206139 <NA>      1 NA            
+    ## 3 C1967/08002       Gadda           206139 <NA>      1 NA            
+    ## 4 C1967/08003       Gadda           206139 <NA>      1 NA            
+    ## 5 C1967/08004       Gadda           206139 <NA>      1 NA            
+    ## 6 C1967/08005       Gadda           206139 <NA>      1 NA
 
 ``` r
-write_csv(PROVDATA_BIOTA, "PROVDATA_BIOTA.csv")
+write_csv(PROVDATA_BIOTA, "PROVDATA_BIOTA.csv", na = "")
 ```
 
 ``` r
@@ -135,46 +140,55 @@ DATA_MATVARDE <- LIMN_data %>%
          MATV_STD = ifelse(is_LOQ, "q", ""),
          MATVARDETAL = ifelse(is_LOQ, abs(VALUE), VALUE),
          RAPPORTERINGSGRANS_LOQ = ifelse(is_LOQ, MATVARDETAL, NA),
+         DETEKTIONSGRANS_LOD = NA,
          UTFOR_LABB = ifelse(NRM_CODE %in% c("D13CUCD", "D15NUCD", "CUCD", "NUCD"), "UC Davies", NA),
          PROV_LAGR = "FRYST",
-         PROV_KOD_LABB = paste(PROV_KOD_ORIGINAL, LAB_KOD),
+         RAPPORT_KOD_LABB = paste(PROV_KOD_ORIGINAL, LAB_KOD),
          FETT_PRC = FPRC,
          TORRVIKT_PRC = case_when(ORGAN == "MUSKEL" ~ MTPRC,
-                                  ORGAN == "LEVER" ~ LTPRC)
+                                  ORGAN == "LEVER" ~ LTPRC),
+         MATVARDETEXT = NA,
+         MATOSAKERHET = NA, MATOSAKERHET_ENHET = NA, MATOSAKERHET_TYP = NA,
+         MATVARDESPAR = if_else(is_LOQ, "Ja", ""),
+         DATUM_REG = NA, PROV_BERED = NA, PROVKARL = NA, ANALYS_DAT = NA, ANALYS_MET = NA, ACKREDITERAD_MET = NA, ANALYS_INSTR = NA, KOMMENTAR_MATVARDE = NA
   ) %>% 
-  select("PARAMETERNAMN", "UNIK_PARAMETERKOD", "PROV_KOD_ORIGINAL", "PROV_KOD_LABB",
-         "LABB", "UTFOR_LABB", "ORGAN", 
-         "MATVARDETAL", "MATVARDETAL_ANM", "ENHET", "MATV_STD", "RAPPORTERINGSGRANS_LOQ", 
-         "PROV_LAGR", "FETT_PRC", "TORRVIKT_PRC") %>% 
+  select("PARAMETERNAMN", "UNIK_PARAMETERKOD", "PROV_KOD_ORIGINAL", "RAPPORT_KOD_LABB",
+         "LABB", "UTFOR_LABB", "ORGAN", "MATVARDETEXT",
+         "MATVARDETAL", "MATVARDETAL_ANM", "ENHET", "MATV_STD", "RAPPORTERINGSGRANS_LOQ", "DETEKTIONSGRANS_LOD", "MATOSAKERHET", "MATOSAKERHET_ENHET", "MATOSAKERHET_TYP", 
+         "MATVARDESPAR", "DATUM_REG",
+         "PROV_LAGR", "PROV_BERED", "PROVKARL", "ANALYS_DAT", "ANALYS_MET", "ACKREDITERAD_MET", "ANALYS_INSTR", "KOMMENTAR_MATVARDE") %>% 
   distinct()
 head(DATA_MATVARDE)
 ```
 
-    ## # A tibble: 6 x 15
-    ##   PARAMETERNAMN UNIK_PARAMETERK~ PROV_KOD_ORIGIN~ PROV_KOD_LABB LABB  UTFOR_LABB
-    ##   <chr>         <chr>            <chr>            <chr>         <chr> <lgl>     
-    ## 1 Ålder (medel~ CH12/241         C1967/08001-080~ C1967/08001-~ NRM   NA        
-    ## 2 2,2',4,4',5,~ CH07/139         C1967/08001-080~ C1967/08001-~ NSL   NA        
-    ## 3 2,2',4,4',5,~ CH07/137         C1967/08001-080~ C1967/08001-~ NSL   NA        
-    ## 4 Vikt          CH12/232         C1967/08001      C1967/08001 ~ NRM   NA        
-    ## 5 Kvicksilver   CH01/86          C1967/08001      C1967/08001 ~ TRC   NA        
-    ## 6 Fettvikt, %   CH12/68          C1967/08001      C1967/08001 ~ NSL   NA        
-    ## # ... with 9 more variables: ORGAN <chr>, MATVARDETAL <dbl>,
-    ## #   MATVARDETAL_ANM <chr>, ENHET <chr>, MATV_STD <chr>,
-    ## #   RAPPORTERINGSGRANS_LOQ <dbl>, PROV_LAGR <chr>, FETT_PRC <dbl>,
-    ## #   TORRVIKT_PRC <dbl>
+    ## # A tibble: 6 x 27
+    ##   PARAMETERNAMN         UNIK_PARAMETERK~ PROV_KOD_ORIGIN~ RAPPORT_KOD_LABB LABB 
+    ##   <chr>                 <chr>            <chr>            <chr>            <chr>
+    ## 1 Ålder (medelvärde)    CH12/241         C1967/08001-080~ C1967/08001-080~ NRM  
+    ## 2 2,2',4,4',5,6'-Hexab~ CH07/139         C1967/08001-080~ C1967/08001-080~ NSL  
+    ## 3 2,2',4,4',5,5'-Hexab~ CH07/137         C1967/08001-080~ C1967/08001-080~ NSL  
+    ## 4 Vikt                  CH12/232         C1967/08001      C1967/08001 NA   NRM  
+    ## 5 Kvicksilver           CH01/86          C1967/08001      C1967/08001 ZT55 TRC  
+    ## 6 Fettvikt, %           CH12/68          C1967/08001      C1967/08001 820~ NSL  
+    ## # ... with 22 more variables: UTFOR_LABB <lgl>, ORGAN <chr>,
+    ## #   MATVARDETEXT <lgl>, MATVARDETAL <dbl>, MATVARDETAL_ANM <chr>, ENHET <chr>,
+    ## #   MATV_STD <chr>, RAPPORTERINGSGRANS_LOQ <dbl>, DETEKTIONSGRANS_LOD <lgl>,
+    ## #   MATOSAKERHET <lgl>, MATOSAKERHET_ENHET <lgl>, MATOSAKERHET_TYP <lgl>,
+    ## #   MATVARDESPAR <chr>, DATUM_REG <lgl>, PROV_LAGR <chr>, PROV_BERED <lgl>,
+    ## #   PROVKARL <lgl>, ANALYS_DAT <lgl>, ANALYS_MET <lgl>, ACKREDITERAD_MET <lgl>,
+    ## #   ANALYS_INSTR <lgl>, KOMMENTAR_MATVARDE <lgl>
 
 ``` r
-write_csv(DATA_MATVARDE, "DATA_MATVARDE.csv")
+write_csv(DATA_MATVARDE, "DATA_MATVARDE.csv", na = "")
 ```
 
 ``` r
 sessionInfo()
 ```
 
-    ## R version 4.0.2 (2020-06-22)
+    ## R version 4.1.2 (2021-11-01)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-    ## Running under: Windows 10 x64 (build 18363)
+    ## Running under: Windows 10 x64 (build 22000)
     ## 
     ## Matrix products: default
     ## 
@@ -187,21 +201,22 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ##  [1] readxl_1.3.1    forcats_0.5.0   stringr_1.4.0   dplyr_1.0.2    
-    ##  [5] purrr_0.3.4     readr_1.4.0     tidyr_1.1.2     tibble_3.0.4   
-    ##  [9] ggplot2_3.3.2   tidyverse_1.3.0
+    ##  [1] readxl_1.3.1    forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
+    ##  [5] purrr_0.3.4     readr_2.1.2     tidyr_1.2.0     tibble_3.1.6   
+    ##  [9] ggplot2_3.3.5   tidyverse_1.3.1
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rcpp_1.0.5       cellranger_1.1.0 pillar_1.4.6     compiler_4.0.2  
-    ##  [5] dbplyr_2.0.0     tools_4.0.2      digest_0.6.27    lubridate_1.7.9 
-    ##  [9] jsonlite_1.7.1   evaluate_0.14    lifecycle_0.2.0  gtable_0.3.0    
-    ## [13] pkgconfig_2.0.3  rlang_0.4.8      reprex_0.3.0     cli_2.1.0       
-    ## [17] rstudioapi_0.11  DBI_1.1.0        yaml_2.2.1       haven_2.3.1     
-    ## [21] xfun_0.19        withr_2.3.0      xml2_1.3.2       httr_1.4.2      
-    ## [25] knitr_1.30       fs_1.5.0         generics_0.1.0   vctrs_0.3.4     
-    ## [29] hms_0.5.3        grid_4.0.2       tidyselect_1.1.0 glue_1.4.2      
-    ## [33] R6_2.5.0         fansi_0.4.1      rmarkdown_2.5    MoCiS2_0.1.0    
-    ## [37] modelr_0.1.8     magrittr_1.5     backports_1.1.10 scales_1.1.1    
-    ## [41] ellipsis_0.3.1   htmltools_0.5.0  rvest_0.3.6      assertthat_0.2.1
-    ## [45] colorspace_1.4-1 utf8_1.1.4       stringi_1.5.3    munsell_0.5.0   
-    ## [49] broom_0.7.2      crayon_1.3.4
+    ##  [1] tidyselect_1.1.1 xfun_0.29        haven_2.4.3      colorspace_2.0-2
+    ##  [5] vctrs_0.3.8      generics_0.1.2   htmltools_0.5.2  yaml_2.2.2      
+    ##  [9] utf8_1.2.2       rlang_1.0.0      pillar_1.7.0     withr_2.4.3     
+    ## [13] glue_1.6.1       DBI_1.1.2        bit64_4.0.5      dbplyr_2.1.1    
+    ## [17] modelr_0.1.8     lifecycle_1.0.1  munsell_0.5.0    gtable_0.3.0    
+    ## [21] cellranger_1.1.0 rvest_1.0.2      evaluate_0.14    knitr_1.37      
+    ## [25] tzdb_0.2.0       fastmap_1.1.0    parallel_4.1.2   MoCiS2_0.1.0    
+    ## [29] fansi_1.0.2      broom_0.7.12     Rcpp_1.0.8       backports_1.4.1 
+    ## [33] scales_1.1.1     vroom_1.5.7      jsonlite_1.7.3   bit_4.0.4       
+    ## [37] fs_1.5.2         hms_1.1.1        digest_0.6.29    stringi_1.7.6   
+    ## [41] grid_4.1.2       cli_3.1.1        tools_4.1.2      magrittr_2.0.2  
+    ## [45] crayon_1.4.2     pkgconfig_2.0.3  ellipsis_0.3.2   xml2_1.3.3      
+    ## [49] reprex_2.0.1     lubridate_1.8.0  assertthat_0.2.1 rmarkdown_2.11  
+    ## [53] httr_1.4.2       rstudioapi_0.13  R6_2.5.1         compiler_4.1.2
