@@ -143,7 +143,7 @@ DATA_MATVARDE <- LIMN_data %>%
          DETEKTIONSGRANS_LOD = NA,
          UTFOR_LABB = ifelse(NRM_CODE %in% c("D13CUCD", "D15NUCD", "CUCD", "NUCD"), "UC Davies", NA),
          PROV_LAGR = "FRYST",
-         RAPPORT_KOD_LABB = paste(PROV_KOD_ORIGINAL, LAB_KOD),
+         RAPPORT_KOD_LABB = paste(PROV_KOD_ORIGINAL, LABB, ifelse(is.na(LAB_KOD), "", LAB_KOD)),
          FETT_PRC = FPRC,
          TORRVIKT_PRC = case_when(ORGAN == "MUSKEL" ~ MTPRC,
                                   ORGAN == "LEVER" ~ LTPRC),
@@ -164,12 +164,12 @@ head(DATA_MATVARDE)
     ## # A tibble: 6 x 27
     ##   PARAMETERNAMN         UNIK_PARAMETERK~ PROV_KOD_ORIGIN~ RAPPORT_KOD_LABB LABB 
     ##   <chr>                 <chr>            <chr>            <chr>            <chr>
-    ## 1 Ålder (medelvärde)    CH12/241         C1967/08001-080~ C1967/08001-080~ NRM  
-    ## 2 2,2',4,4',5,6'-Hexab~ CH07/139         C1967/08001-080~ C1967/08001-080~ NSL  
-    ## 3 2,2',4,4',5,5'-Hexab~ CH07/137         C1967/08001-080~ C1967/08001-080~ NSL  
-    ## 4 Vikt                  CH12/232         C1967/08001      C1967/08001 NA   NRM  
-    ## 5 Kvicksilver           CH01/86          C1967/08001      C1967/08001 ZT55 TRC  
-    ## 6 Fettvikt, %           CH12/68          C1967/08001      C1967/08001 820~ NSL  
+    ## 1 Ålder (medelvärde)    CH12/241         C1967/08001-080~ "C1967/08001-08~ NRM  
+    ## 2 2,2',4,4',5,6'-Hexab~ CH07/139         C1967/08001-080~ "C1967/08001-08~ NSL  
+    ## 3 2,2',4,4',5,5'-Hexab~ CH07/137         C1967/08001-080~ "C1967/08001-08~ NSL  
+    ## 4 Vikt                  CH12/232         C1967/08001      "C1967/08001 NR~ NRM  
+    ## 5 Kvicksilver           CH01/86          C1967/08001      "C1967/08001 TR~ TRC  
+    ## 6 Fettvikt, %           CH12/68          C1967/08001      "C1967/08001 NS~ NSL  
     ## # ... with 22 more variables: UTFOR_LABB <lgl>, ORGAN <chr>,
     ## #   MATVARDETEXT <lgl>, MATVARDETAL <dbl>, MATVARDETAL_ANM <chr>, ENHET <chr>,
     ## #   MATV_STD <chr>, RAPPORTERINGSGRANS_LOQ <dbl>, DETEKTIONSGRANS_LOD <lgl>,

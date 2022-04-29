@@ -90,7 +90,7 @@ DATA_MATVARDE <- LIMN_data %>%
          DETEKTIONSGRANS_LOD = NA,
          UTFOR_LABB = ifelse(NRM_CODE %in% c("D13CUCD", "D15NUCD", "CUCD", "NUCD"), "UC Davies", NA),
          PROV_LAGR = "FRYST",
-         RAPPORT_KOD_LABB = paste(PROV_KOD_ORIGINAL, LAB_KOD),
+         RAPPORT_KOD_LABB = paste(PROV_KOD_ORIGINAL, LABB, ifelse(is.na(LAB_KOD), "", LAB_KOD)),
          FETT_PRC = FPRC,
          TORRVIKT_PRC = case_when(ORGAN == "MUSKEL" ~ MTPRC,
                                   ORGAN == "LEVER" ~ LTPRC),
